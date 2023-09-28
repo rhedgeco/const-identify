@@ -55,6 +55,10 @@ pub unsafe trait ConstIdentify {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use const_identify_derive::ConstIdentify;
+
+    #[derive(ConstIdentify)]
+    struct TestStruct;
 
     #[test]
     fn uniqueness() {
@@ -64,5 +68,33 @@ mod tests {
         assert_ne!(ID1, ID2);
         assert_ne!(ID2, ID3);
         assert_ne!(ID3, ID1);
+    }
+
+    #[test]
+    fn derive_uniqueness() {
+        #[derive(ConstIdentify)]
+        struct TestStruct;
+
+        #[derive(ConstIdentify)]
+        struct TestStruct2;
+
+        let local_id = TestStruct::CONST_ID;
+        let local_id2 = TestStruct2::CONST_ID;
+        assert_ne!(local_id, local_id2);
+
+        let global_id = tests::TestStruct::CONST_ID;
+        assert_ne!(local_id, global_id);
+    }
+
+    // this section is used to check that derive tests still hold even with wacky formatting
+    #[rustfmt::skip]
+    mod unformatted {
+        use super::*;
+
+        #[derive(ConstIdentify)]struct TestStruct;#[test]fn derive_uniqueness() {#[derive(ConstIdentify)]struct TestStruct;
+            let local_id = TestStruct::CONST_ID;
+            let global_id = tests::TestStruct::CONST_ID;
+            assert_ne!(local_id, global_id);
+        }
     }
 }

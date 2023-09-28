@@ -16,7 +16,10 @@ pub fn derive_const_identify(input: TokenStream) -> TokenStream {
     let output = quote! {
         unsafe impl #implgen ::const_identify::ConstIdentify for #ident #typegen #wheregen {
             const CONST_ID: ::const_identify::ConstId = ::const_identify::ConstId::generate(
-                concat!(module_path!(), "::", stringify!(#ident))
+                concat!(
+                    module_path!(), "::", stringify!(#ident),
+                    ":", file!(), ":", line!(), ":", column!()
+                )
             );
         }
     };
