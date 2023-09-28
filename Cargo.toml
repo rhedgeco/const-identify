@@ -1,6 +1,6 @@
 [package]
 name = "const-identify"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 description = "Generates unique ids that can be used at compile time."
