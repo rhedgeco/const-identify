@@ -228,3 +228,48 @@ mod sealed {
         };
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const ID1: ConstId = ConstId::from_raw(0);
+    const ID2: ConstId = ConstId::from_raw(1);
+    const ID3: ConstId = ConstId::from_raw(2);
+
+    #[test]
+    fn ordered() {
+        let ordered = OrderedIdArray::new([ID2, ID1, ID3]);
+        let slice = ordered.as_raw_slice();
+        assert!(slice[0] < slice[1]);
+        assert!(slice[1] < slice[2]);
+    }
+
+    #[test]
+    fn unique() {
+        assert!(UniqueIdArray::new([ID2, ID1, ID3, ID2]).is_none());
+        let unique = UniqueIdArray::new([ID3, ID1, ID2]).unwrap();
+        let slice = unique.as_raw_slice();
+        assert!(slice[0] < slice[1]);
+        assert!(slice[1] < slice[2]);
+    }
+
+    #[test]
+    fn compare() {
+        let ordered = OrderedIdArray::new([ID2, ID1]);
+        let unique = UniqueIdArray::new([ID3, ID1]).unwrap();
+        let ordered_eq = OrderedIdArray::new([ID1, ID2]);
+        assert!(ordered.const_cmp_unique(&unique).is_lt());
+        assert!(unique.const_cmp_ordered(&ordered).is_gt());
+        assert!(ordered.const_cmp_ordered(&ordered_eq).is_eq());
+    }
+
+    #[test]
+    fn convert() {
+        let ordered = OrderedIdArray::new([ID3, ID1, ID2]);
+        assert!(ordered.into_unique().is_ok());
+
+        let ordered_duplicate = OrderedIdArray::new([ID1, ID2, ID1]);
+        assert!(ordered_duplicate.into_unique().is_err());
+    }
+}

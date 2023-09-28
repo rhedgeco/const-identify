@@ -51,3 +51,18 @@ impl ConstId {
 pub unsafe trait ConstIdentify {
     const CONST_ID: ConstId;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn uniqueness() {
+        const ID1: ConstId = ConstId::generate("unique1");
+        const ID2: ConstId = ConstId::generate("unique2");
+        const ID3: ConstId = ConstId::generate("unique3");
+        assert_ne!(ID1, ID2);
+        assert_ne!(ID2, ID3);
+        assert_ne!(ID3, ID1);
+    }
+}
