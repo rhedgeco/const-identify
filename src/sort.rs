@@ -134,6 +134,24 @@ impl<'a> UniqueIdSlice<'a> {
     crate::impl_cmp!();
 }
 
+#[macro_export]
+macro_rules! ordered_ids {
+    [$( $item:ty ),* $(,)?] => {
+        $crate::OrderedIdArray::new([$(
+            <$item as $crate::ConstIdentify>::CONST_ID,
+        )*])
+    };
+}
+
+#[macro_export]
+macro_rules! unique_ids {
+    [$( $item:ty ),* $(,)?] => {
+        $crate::UniqueIdArray::new([$(
+            <$item as $crate::ConstIdentify>::CONST_ID,
+        )*])
+    };
+}
+
 /// Consumes an array of ids and returns the array as sorted
 const fn const_sort<const SIZE: usize>(mut arr: [ConstId; SIZE]) -> [ConstId; SIZE] {
     // Bubble sort implementation pulled from this reddit comment. Thanks!
