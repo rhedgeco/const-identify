@@ -7,6 +7,7 @@ description = "Generates unique ids that can be used at compile time."
 homepage = "https://github.com/rhedgeco/const-identify/"
 repository = "https://github.com/rhedgeco/const-identify/"
 readme = "README.md"
+keywords = ["const", "id", "sorting", "static", "compile time"]
 
 [dependencies]
 const-fnv1a-hash = "1.1"
