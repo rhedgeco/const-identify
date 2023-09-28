@@ -1,0 +1,17 @@
+[package]
+name = "const-identify-derive"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Derive macro backing the const-identify crate."
+homepage = "https://github.com/rhedgeco/const-identify/"
+repository = "https://github.com/rhedgeco/const-identify/"
+readme = "README.md"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "1.0"
+proc-macro2 = "1.0"
+syn = { version = "2.0", features = ["full"] }
