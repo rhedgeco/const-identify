@@ -152,6 +152,14 @@ macro_rules! unique_ids {
     };
 }
 
+/// Since `Option::unwrap` is not const stable, this may be used as a replacement in the meantime
+pub const fn unwrap<const SIZE: usize>(unique: Option<UniqueIdArray<SIZE>>) -> UniqueIdArray<SIZE> {
+    match unique {
+        Some(unique) => unique,
+        None => panic!("Duplicates detected in UniqueIdArray"),
+    }
+}
+
 /// Consumes an array of ids and returns the array as sorted
 const fn const_sort<const SIZE: usize>(mut arr: [ConstId; SIZE]) -> [ConstId; SIZE] {
     // Bubble sort implementation pulled from this reddit comment. Thanks!
