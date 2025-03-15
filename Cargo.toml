@@ -1,7 +1,7 @@
 [package]
 name = "const-identify"
-version = "0.1.1"
-edition = "2021"
+version = "0.2.0"
+edition = "2024"
 license = "MIT"
 description = "Generates unique ids that can be used at compile time."
 homepage = "https://github.com/rhedgeco/const-identify/"
@@ -10,5 +10,6 @@ readme = "README.md"
 keywords = ["const", "id", "sorting", "static", "compiled"]
 
 [dependencies]
-const-fnv1a-hash = "1.1"
-const-identify-derive = { path = "./derive", version = "0.1" }
+const-fnv1a-hash = "1.1.0"
+const-identify-derive = { path = "./derive" }
+konst = "0.3.16"
